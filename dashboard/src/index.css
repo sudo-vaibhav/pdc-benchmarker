@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+@import "react-toastify/dist/ReactToastify.css";
+body {
+  font-family: "DM Sans", sans-serif;
+  height: 100%;
+  overflow: auto;
+  @apply leading-loose;
+}
+
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply leading-tight;
+}
+
+* {
+  outline: 0;
+}
+.container {
+  @apply mx-auto;
+}
