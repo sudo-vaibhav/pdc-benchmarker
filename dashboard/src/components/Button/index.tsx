@@ -15,7 +15,7 @@ const Button = ({
       disabled={disabled}
       className="bg-blue-800 hover:bg-blue-dark text-white font-bold p-4 rounded disabled:opacity-75 disabled:cursor-not-allowed"
     >
-      {text}
+      {disabled ? "Processing..." : text}
     </button>
   );
 };

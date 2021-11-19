@@ -42,9 +42,6 @@ def run_benchmark(data):
     print("benchmark result",result)
     socketio.emit("benchmark-result",result)
 
-
-
-
 if __name__ == '__main__':
     socketio.run(app)
     

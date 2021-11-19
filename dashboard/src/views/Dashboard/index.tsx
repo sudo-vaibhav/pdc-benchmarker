@@ -53,6 +53,9 @@ const Dashboard = ({ socket }: { socket: Socket }) => {
       }));
     });
 
+    setInterval(() => {
+      socket.emit("request-sys-resources");
+    }, 300);
     socket.on("benchmark-result", (m) => {
       console.log("benchmark result", m);
       setState((oldState) => ({
