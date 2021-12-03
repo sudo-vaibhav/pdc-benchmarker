@@ -15,20 +15,27 @@ const WorkLoadCards = ({
       <div className="flex space-x-2">
         {[
           {
+            heading: "Image Processing",
+            description:
+              "Takes a given number of huge images, and applies a gaussian blur on them which is a highly CPU bound process. Multiprocessing can be used here.",
+            maximumDatasetSize: 20,
+          },
+          {
             heading: "Word Count",
             description:
               "A classic problem of distributed computing which generates random lines of text and counts the number of occurrences of each word in the text",
             maximumDatasetSize: 15000,
           },
           {
-            heading: "Image Processing",
+            heading: "Factorial Product",
             description:
-              "Takes a given number of huge images, and applies a gaussian blur on them which is a highly CPU bound process. Multiprocessing can be used here.",
-            maximumDatasetSize: 20,
+              "Computes the factorial of several very large numbers and then multiplies them together in reduction step",
+            maximumDatasetSize: 1000,
           },
         ].map((i) => {
           return (
             <WorkLoadCard
+              key={i.heading}
               selected={state.benchmark.workLoad === i.heading}
               heading={i.heading}
               description={i.description}

@@ -1,4 +1,6 @@
-import { InitBenchmarkState } from "..";
+import { useEffect, useState } from "react";
+import { io, Socket } from "socket.io-client";
+import { SysResources } from "..";
 
 const Progress = ({ title, value }: { title: string; value: number }) => {
   return (
@@ -15,7 +17,39 @@ const Progress = ({ title, value }: { title: string; value: number }) => {
     </div>
   );
 };
-const Sidebar = ({ state }: { state: InitBenchmarkState }) => {
+const Sidebar = () => {
+  const [{ socket, sysResources }, setState] = useState<{
+    socket?: Socket;
+    sysResources: SysResources;
+  }>({
+    sysResources: {
+      ram: 0,
+      cpu: 0,
+    },
+  });
+
+  useEffect(() => {
+    const newSocket = io(`http://localhost:4848`);
+    setState((oldState) => ({ ...oldState, socket: newSocket }));
+
+    return () => {
+      newSocket.close();
+    };
+  }, [setState]);
+
+  useEffect(() => {
+    setInterval(() => {
+      if (socket) {
+        socket.emit("request-sys-resources");
+      }
+      socket?.on("sys-resources", (m) => {
+        setState((oldState) => ({
+          ...oldState,
+          sysResources: m,
+        }));
+      });
+    }, 500);
+  }, [socket]);
   return (
     <div
       className="text-white p-8 flex flex-col justify-between"
@@ -25,15 +59,15 @@ const Sidebar = ({ state }: { state: InitBenchmarkState }) => {
     >
       <div>
         <h1 className="text-title-1">System Vitals</h1>
-        <Progress title="CPU" value={state.sysResources.cpu} />
-        <Progress title="RAM" value={state.sysResources.ram} />
+        <Progress title="CPU" value={sysResources.cpu} />
+        <Progress title="RAM" value={sysResources.ram} />
       </div>
       <div className="text-right">
         <p className="my-4">
           A benchmark comparison between parallel and distributed processing
           with tunable parameters and visualization
         </p>
-        <p className="text-gray-300">Made with ❤️ by John Doe</p>
+        <p className="text-gray-300">Made with ❤️</p>
       </div>
     </div>
   );

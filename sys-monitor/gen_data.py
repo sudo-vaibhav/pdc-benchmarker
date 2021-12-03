@@ -10,3 +10,5 @@ def gen_data(preset, quantity):
         return [lipsum.generate_paragraphs(1) for _ in range(quantity)]
     elif preset == "Image Processing":
         return [random.choice(img_names) for _ in range(min(quantity,16))]
+    elif preset == "Factorial Product":
+        return [random.randint(1,500) for _ in range(quantity)]

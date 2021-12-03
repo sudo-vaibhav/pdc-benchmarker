@@ -6,18 +6,22 @@ import Results from "./Results";
 import Sidebar from "./Sidebar";
 import WorkLoadCards from "./WorkLoadCards";
 
+export interface SysResources {
+  cpu: number;
+  ram: number;
+}
 const initBenchmarkState = {
   sysDetails: {
     processCount: 0,
   },
-  sysResources: {
-    ram: 0,
-    cpu: 0,
-  },
+  // sysResources: {
+  //   ram: 0,
+  //   cpu: 0,
+  // },
   benchmark: {
     processCount: 1,
     datasetSize: 20,
-    workLoad: "Word Count",
+    workLoad: "Image Processing",
     maximumDatasetSize: 20,
   },
   processing: false,
@@ -25,6 +29,7 @@ const initBenchmarkState = {
     serial: number;
     parallel: number;
   } | null,
+  // sysResourcesArray: [] as SysResources[],
 };
 export type InitBenchmarkState = typeof initBenchmarkState;
 export type SetBenchmarkState = React.Dispatch<
@@ -37,13 +42,6 @@ const Dashboard = ({ socket }: { socket: Socket }) => {
     socket.on("connect", () => {
       console.log(socket);
       console.log("connected");
-    });
-
-    socket.on("sys-resources", (m) => {
-      setState((oldState) => ({
-        ...oldState,
-        sysResources: m,
-      }));
     });
 
     socket.on("sys-details", (m) => {
@@ -81,6 +79,7 @@ const Dashboard = ({ socket }: { socket: Socket }) => {
                   ...oldState,
                   result: null,
                   processing: true,
+                  sysResourcesArray: [],
                 }));
                 socket.emit("run-benchmark", state.benchmark);
               }}
@@ -89,7 +88,9 @@ const Dashboard = ({ socket }: { socket: Socket }) => {
           <Results state={state} />
         </div>
       </div>
-      <Sidebar state={state} />
+      <Sidebar
+      // setState={setState}
+      />
     </div>
   );
 };

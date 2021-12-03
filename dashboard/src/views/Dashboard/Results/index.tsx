@@ -53,6 +53,10 @@ const Results = ({ state }: { state: InitBenchmarkState }) => {
         }}
         className="w-3/4 max-h-80"
       />
+
+      {/* {JSON.stringify(state.sysResourcesArray)} */}
+      {/* <br />
+      {JSON.stringify(state.sysResourcesArray.length)} */}
     </div>
   ) : null;
 };
